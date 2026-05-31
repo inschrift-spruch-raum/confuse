@@ -3,4 +3,28 @@ name = "confuse"
 version = "0.1.0"
 edition = "2024"
 
+[workspace.lints.clippy]
+all = "warn"
+pedantic = "warn"
+
+[features]
+default = []
+abi-7-11 = []
+abi-7-12 = []
+abi-7-13 = []
+abi-7-15 = []
+abi-7-16 = []
+abi-7-18 = []
+abi-7-23 = []
+
 [dependencies]
+libc = "0.2"
+
+[target.'cfg(not(windows))'.dependencies]
+fuser = "0.17"
+
+[target.'cfg(windows)'.dependencies]
+dokan = "0.3"
+dokan-sys = "0.3"
+widestring = "0.4"
+winapi = { version = "0.3", features = ["consoleapi", "handleapi", "processthreadsapi", "securitybaseapi", "winbase", "wincon", "winnt"] }
