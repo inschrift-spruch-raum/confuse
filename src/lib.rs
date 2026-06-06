@@ -1,14 +1,12 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
+#![deny(unsafe_op_in_unsafe_fn)]
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+#[cfg(not(windows))]
+pub use fuser::*;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+#[cfg(windows)]
+pub use fuser_facade::*;
+
+#[cfg(windows)]
+pub(crate) mod dokan_impl;
+#[cfg(windows)]
+mod fuser_facade;
