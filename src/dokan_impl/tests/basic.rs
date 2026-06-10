@@ -276,6 +276,22 @@ fn derive_volume_names_prefers_fsname_and_subtype() {
 
 #[test]
 
+fn derive_volume_flags_exposes_named_streams_via_custom_options() {
+    assert_eq!(derive_volume_flags(&[]), 0);
+
+    assert_eq!(
+        derive_volume_flags(&[MountOption::CUSTOM("dokan_named_streams".to_string()),]),
+        FILE_NAMED_STREAMS
+    );
+
+    assert_eq!(
+        derive_volume_flags(&[MountOption::CUSTOM("named_streams".to_string())]),
+        FILE_NAMED_STREAMS
+    );
+}
+
+#[test]
+
 fn to_dokan_mount_options_accepts_common_fuser_options_on_windows() {
     let opts = vec![
         MountOption::AutoUnmount,
@@ -348,6 +364,22 @@ fn windows_representable_mount_options_map_deterministically() {
         .expect("single_thread maps");
 
     assert!(st.single_thread);
+
+    let named_streams =
+        to_dokan_mount_options(&[MountOption::CUSTOM("dokan_named_streams".to_string())])
+            .expect("dokan_named_streams maps");
+
+    assert!(named_streams.flags.contains(dokan::MountFlags::ALT_STREAM));
+
+    let named_streams_alias =
+        to_dokan_mount_options(&[MountOption::CUSTOM("named_streams".to_string())])
+            .expect("named_streams maps");
+
+    assert!(
+        named_streams_alias
+            .flags
+            .contains(dokan::MountFlags::ALT_STREAM)
+    );
 }
 
 #[test]

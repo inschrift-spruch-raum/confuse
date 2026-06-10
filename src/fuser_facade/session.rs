@@ -9,7 +9,9 @@ use std::net::TcpListener;
 use widestring::U16CString;
 
 use crate::dokan_impl::adapter::{DokanAdapter, PathResolver};
-use crate::dokan_impl::{derive_volume_names, mountpoint_to_u16, to_dokan_mount_options};
+use crate::dokan_impl::{
+    derive_volume_flags, derive_volume_names, mountpoint_to_u16, to_dokan_mount_options,
+};
 
 use super::filesystem::Filesystem;
 use super::notifier::Notifier;
@@ -74,6 +76,7 @@ impl<FS: Filesystem> Session<FS> {
 
     fn run(&mut self) -> io::Result<()> {
         let (volume_name, fs_name) = derive_volume_names(self.options.mount_options.as_ref());
+        let volume_flags = derive_volume_flags(self.options.mount_options.as_ref());
         let handler = DokanAdapter {
             fs: Arc::clone(&self.filesystem),
             handles: Arc::new(Mutex::new(HashMap::new())),
@@ -81,6 +84,7 @@ impl<FS: Filesystem> Session<FS> {
             dir_offsets: Arc::new(Mutex::new(HashMap::new())),
             volume_name,
             fs_name,
+            volume_flags,
             destroyed: Arc::clone(&self.destroyed),
         };
         let mut options = to_dokan_mount_options(self.options.mount_options.as_ref())?;

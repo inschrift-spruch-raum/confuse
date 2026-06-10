@@ -211,6 +211,11 @@ fn apply_custom_dokan_mount_option(out: &mut dokan::MountOptions<'static>, value
     if value.eq_ignore_ascii_case("debug") {
         out.flags.insert(dokan::MountFlags::DEBUG);
     }
+    if value.eq_ignore_ascii_case("dokan_named_streams")
+        || value.eq_ignore_ascii_case("named_streams")
+    {
+        out.flags.insert(dokan::MountFlags::ALT_STREAM);
+    }
     // auto_probe and unknown custom options are accepted for fuser-facing compatibility.
 }
 

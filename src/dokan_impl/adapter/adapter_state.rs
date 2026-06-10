@@ -39,5 +39,6 @@ pub(crate) struct DokanAdapter<FS: Filesystem> {
     pub(crate) dir_offsets: Arc<Mutex<HashMap<String, i64>>>,
     pub(crate) volume_name: String,
     pub(crate) fs_name: String,
+    pub(crate) volume_flags: u32,
     pub(crate) destroyed: Arc<AtomicBool>,
 }

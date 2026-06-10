@@ -2,6 +2,7 @@ use std::ffi::OsStr;
 use std::sync::atomic::{AtomicBool, Ordering};
 
 use winapi::shared::ntstatus::*;
+use winapi::um::winnt::FILE_NAMED_STREAMS;
 
 use crate::dokan_impl::AdapterContext;
 use crate::fuser_facade::filesystem::Filesystem;
@@ -214,6 +215,20 @@ pub(crate) fn derive_volume_names(options: &[MountOption]) -> (String, String) {
         }
     }
     (volume_name, fs_name)
+}
+
+pub(crate) fn derive_volume_flags(options: &[MountOption]) -> u32 {
+    let mut flags = 0;
+    for opt in options {
+        if let MountOption::CUSTOM(value) = opt {
+            if value.eq_ignore_ascii_case("dokan_named_streams")
+                || value.eq_ignore_ascii_case("named_streams")
+            {
+                flags |= FILE_NAMED_STREAMS;
+            }
+        }
+    }
+    flags
 }
 
 #[cfg(test)]

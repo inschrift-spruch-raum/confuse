@@ -177,7 +177,7 @@ macro_rules! handler_metadata {
                 name,
                 serial_number: 0xC0FFEE,
                 max_component_length: 255,
-                fs_flags: 0,
+                fs_flags: self.volume_flags,
                 fs_name,
             })
         }

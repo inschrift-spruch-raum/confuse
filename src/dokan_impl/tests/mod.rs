@@ -259,6 +259,7 @@ fn test_adapter<FS: Filesystem>(fs: FS) -> DokanAdapter<FS> {
         dir_offsets: Arc::new(Mutex::new(HashMap::new())),
         volume_name: "confuse".to_string(),
         fs_name: "FUSER".to_string(),
+        volume_flags: derive_volume_flags(&[]),
         destroyed: Arc::new(AtomicBool::new(false)),
     }
 }

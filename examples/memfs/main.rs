@@ -548,6 +548,7 @@ fn main() -> std::io::Result<()> {
     let options = vec![
         MountOption::FSName("confuse-memfs".to_string()),
         MountOption::RW,
+        MountOption::CUSTOM("dokan_named_streams".to_string()),
     ];
 
     let fs = MemFs::new();
