@@ -2,6 +2,17 @@
 name = "confuse"
 version = "0.1.0"
 edition = "2024"
+rust-version = "1.96"
+authors = ["inschrift.spruch.raum <inschrift.spruch.raum@outlook.com>"]
+description = "A fuser-compatible filesystem API facade using Dokan on Windows and fuser elsewhere."
+license = "MIT"
+repository = "https://github.com/inschrift-spruch-raum/confuse"
+homepage = "https://github.com/inschrift-spruch-raum/confuse"
+documentation = "https://github.com/inschrift-spruch-raum/confuse/tree/docs"
+readme = "README.md"
+publish = true
+keywords = ["fuse", "fuser", "dokan", "filesystem", "windows"]
+categories = ["filesystem", "os::windows-apis", "api-bindings"]
 
 [workspace.lints.clippy]
 all = "warn"
